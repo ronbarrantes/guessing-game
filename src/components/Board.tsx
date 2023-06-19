@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 
-import { create } from 'zustand'
-
+import { useBoardState } from '@/state/boardState'
 import { buildCardData } from '@/utils/card'
 
 // interface DialogState {
@@ -42,7 +41,7 @@ import { buildCardData } from '@/utils/card'
 // level
 // game over
 
-interface CardProps {
+export interface CardData {
   cardId: number
   matched: boolean
   selected: boolean
@@ -52,34 +51,25 @@ interface CardProps {
   cardColor: string
 }
 
+interface CardProps extends CardData {
+  handleMatch: (cardId: number) => void
+}
+
 // interface BoardProps {
 //   cards: CardProps[]
 //   difficulty: 'EASY' | 'MEDIUM' | 'HARD' | 'IMPOSSIBLE'
 //   isGameOver: boolean
 // }
 
-interface BoardState {
-  cards: CardProps[]
-  loadCards: (cards: CardProps[]) => void
-  difficulty: 'EASY' | 'MEDIUM' | 'HARD' | 'IMPOSSIBLE'
-  isGameOver: boolean
-  chooseDifficulty: (difficulty: BoardState['difficulty']) => void
-  setGameOver: (isGameOver: boolean) => void
-  // pickCard: (cardId: number) => void,
-}
-
-export const useBoardState = create<BoardState>((set) => ({
-  cards: [],
-  loadCards: (cards: CardProps[]) => set({ cards }),
-  difficulty: 'EASY',
-  isGameOver: false,
-  chooseDifficulty: (difficulty: BoardState['difficulty']) =>
-    set({ difficulty }),
-  setGameOver: (isGameOver: boolean) => set({ isGameOver }),
-}))
-
-const Card = () => {
-  return <div className="w-1/4 h-1/2 border border-red-500">stuff</div>
+const Card = ({ handleMatch, cardId }: CardProps) => {
+  const handleClick = () => {
+    handleMatch(cardId)
+  }
+  return (
+    <div className="w-1/4 h-1/2 border border-red-500" onClick={handleClick}>
+      stuff
+    </div>
+  )
 }
 
 export const Board = () => {
@@ -88,15 +78,21 @@ export const Board = () => {
 
   useEffect(() => {
     buildCardData().then((cardData) => {
-      console.log(cardData)
+      loadCards(cardData)
     })
-  }, [])
+  }, [loadCards])
+
+  const handleMatch = (cardId: number) => {
+    console.log('handleMatch', cardId)
+  }
 
   return (
     <main className="flex grow flex-wrap overflow-hidden">
-      {cards.map((card, i) => (
-        <Card key={`${card.cardId}__${i}`} {...card} />
-      ))}
+      {Object.values(cards).map((card, idx) => {
+        // cards[cardIdx]
+        const id = `${card.cardId}__${idx}`
+        return <Card key={id} {...card} handleMatch={handleMatch} />
+      })}
     </main>
   )
 }
