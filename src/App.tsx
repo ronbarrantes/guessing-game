@@ -1,4 +1,5 @@
 import { Board } from '@/components/Board'
+import { useBoardState } from '@/state/boardState'
 
 import './App.css'
 
@@ -8,14 +9,16 @@ import './App.css'
 // ADD THE GUESSES
 
 const App = () => {
+  const { guessCount } = useBoardState()
+
   return (
     <div className="flex h-screen w-screen flex-col p-2">
       <header>
-        <div>Title</div>
+        <div>Matching game</div>
       </header>
       <Board />
-      <footer>
-        <div>Footer</div>
+      <footer className="justify-center flex">
+        <div>Guess count: {Math.floor(guessCount)}</div>
       </footer>
     </div>
   )
