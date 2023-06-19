@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
 
+import classNames from 'classnames'
+
 import { useBoardState } from '@/state/boardState'
 import { buildCardData } from '@/utils/card'
 
@@ -55,18 +57,22 @@ interface CardProps extends CardData {
   handleMatch: (cardId: number) => void
 }
 
-// interface BoardProps {
-//   cards: CardProps[]
-//   difficulty: 'EASY' | 'MEDIUM' | 'HARD' | 'IMPOSSIBLE'
-//   isGameOver: boolean
-// }
-
-const Card = ({ handleMatch, cardId }: CardProps) => {
+const Card = ({ handleMatch, cardId, matched, selected }: CardProps) => {
   const handleClick = () => {
     handleMatch(cardId)
   }
   return (
-    <div className="w-1/4 h-1/2 border border-red-500" onClick={handleClick}>
+    <div
+      className={classNames(
+        'w-1/4 h-1/2 border border-black',
+        { 'bg-green-500': matched },
+        { 'bg-red-500': selected },
+        { 'bg-gray-500': !matched && !selected },
+        { 'cursor-pointer': !matched && !selected },
+      )}
+      onClick={handleClick}
+      aria-disabled={matched || selected}
+    >
       stuff
     </div>
   )
@@ -87,9 +93,8 @@ export const Board = () => {
   }
 
   return (
-    <main className="flex grow flex-wrap overflow-hidden">
+    <main className="flex grow h-full flex-wrap overflow-hidden">
       {Object.values(cards).map((card, idx) => {
-        // cards[cardIdx]
         const id = `${card.cardId}__${idx}`
         return <Card key={id} {...card} handleMatch={handleMatch} />
       })}
