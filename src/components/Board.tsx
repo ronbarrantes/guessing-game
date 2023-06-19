@@ -77,6 +77,7 @@ export const Board = () => {
             disabled={boardDisabled}
             {...card}
             handleMatch={() => {
+              console.log('ID', id)
               checkCard(cards[id])
               increaseGuessCount()
             }}

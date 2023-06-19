@@ -33,6 +33,7 @@ export const Card = ({
       <div
         className={classNames(
           'flip-card',
+          // 'flip-action',
           'm-5 !border-5 !border-blue-500 border-transparent w-fit h-fit flex justify-center items-center',
           { 'bg-green-500 border-green-500': matched },
           { 'bg-red-500 border-red-500': selected },
@@ -41,7 +42,7 @@ export const Card = ({
       >
         <div
           className={classNames('flip-card-inner', {
-            'flipping-card': matched || selected,
+            'flip-action': matched || selected,
           })}
         >
           <button
