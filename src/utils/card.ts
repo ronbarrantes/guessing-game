@@ -1,10 +1,8 @@
 const getCardImage = async (width = 200, height?: number) => {
   !height ? (height = width) : height
-  // const image = await fetch(`https://picsum.photos/${width}/${height}`)
-  // const result = image.url
-  // return result
-
-  return 'stuff'
+  const image = await fetch(`https://picsum.photos/${width}/${height}`)
+  const result = image.url
+  return result
 }
 
 const getImageList = async (count = 4) => {
