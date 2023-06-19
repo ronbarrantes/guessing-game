@@ -1,12 +1,26 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
+import { Board } from '@/components/Board'
+
 import './App.css'
 
-function App() {
-  // const [count, setCount] = useState(0)
+// ADD THE CARDS COMPONENT
+// ADD THE TITLE
+// ADD THE LEVEL EASY MEDIUM HARD
+// ADD THE GUESSES
 
-  return <h1 className="text-3xl font-bold underline">Hello world!</h1>
+const App = () => {
+  return (
+    <div className="flex h-screen w-screen flex-col p-2 py-2' border border-red-500">
+      <header>
+        <div>Title</div>
+      </header>
+
+      <Board />
+
+      <footer>
+        <div>Footer</div>
+      </footer>
+    </div>
+  )
 }
 
 export default App
