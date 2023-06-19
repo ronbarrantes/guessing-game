@@ -25,38 +25,38 @@ export const Card = ({
 }: CardProps) => {
   return (
     <div
-      className={classNames(
-        'w-1/4 h-1/2 border border-red-400 flex justify-center items-center',
-      )}
+      className={classNames('w-1/4 h-1/2 flex justify-center items-center')}
       aria-disabled={matched || selected}
     >
-      <div
-        className={classNames(
-          'flip-card',
-          // 'flip-action',
-          'm-5 !border-5 !border-blue-500 border-transparent w-fit h-fit flex justify-center items-center',
-          { 'bg-green-500 border-green-500': matched },
-          { 'bg-red-500 border-red-500': selected },
-          { 'bg-gray-500 border-gray-500': !matched && !selected },
-        )}
-      >
+      <div className={classNames('flip-card m-5 w-48 h-48 bg-transparent')}>
         <div
-          className={classNames('flip-card-inner', {
-            'flip-action': matched || selected,
-          })}
+          className={classNames(
+            'flip-card-inner w-full h-full relative border-2 border-transparent text-center rounded-3xl hover:border-yellow-500',
+            {
+              'flip-action': matched || selected,
+              'bg-green-500 border-green-500': matched,
+              'bg-yellow-500 border-yellow-500': selected,
+            },
+          )}
         >
           <button
             onClick={handleMatch}
             disabled={matched || selected || disabled}
             className={classNames(
-              'flip-card-front block',
-              'w-40 p-2 h-40 border border-red-500',
-              { 'cursor-pointer': !matched && !selected },
+              'flip-card-front block rounded-3xl text-6xl bg-blue-300 absolute w-full h-full',
+              {
+                'cursor-pointer': !matched && !selected,
+              },
             )}
             aria-label={`Card to flip`}
-          />
-          <div className="flip-card-back">
-            <img src={cardImage} className="w-full h-full object-fill" />
+          >
+            😊
+          </button>
+          <div className="flip-card-back rounded-3xl bg-green-300 absolute w-full h-full">
+            <img
+              src={cardImage}
+              className="w-full h-full rounded-3xl object-fill"
+            />
           </div>
         </div>
       </div>
