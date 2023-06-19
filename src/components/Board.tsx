@@ -1,65 +1,9 @@
 import { useEffect, useState } from 'react'
 
-import classNames from 'classnames'
-
+import { Card } from '@/components/Card'
 import { useBoardState } from '@/state/boardState'
 import { buildCardData } from '@/utils/card'
 import { LoadingPage } from './Loaders'
-
-export interface CardData {
-  id: string
-  cardNumber: number
-  matched: boolean
-  selected: boolean
-  cardImage: string
-  cardText: string
-  cardColor: string
-}
-
-interface CardProps extends CardData {
-  disabled: boolean
-  handleMatch: () => void
-}
-
-// CARD
-const Card = ({
-  handleMatch,
-  matched,
-  selected,
-  cardImage,
-  cardNumber,
-  disabled,
-}: CardProps) => {
-  return (
-    <div
-      className={classNames(
-        'w-1/4 h-1/2 border border-red-400 flex justify-center items-center',
-      )}
-      aria-disabled={matched || selected}
-    >
-      <div
-        className={classNames(
-          'm-5 !border-5 !border-blue-500 border-transparent w-fit h-fit flex justify-center items-center rounded-full ',
-          { 'bg-green-500 border-green-500': matched },
-          { 'bg-red-500 border-red-500': selected },
-          { 'bg-gray-500 border-gray-500': !matched && !selected },
-        )}
-      >
-        <button
-          style={{
-            backgroundImage: `url(${cardImage})`,
-          }}
-          onClick={handleMatch}
-          disabled={matched || selected || disabled}
-          className={classNames('w-40 p-2 h-40', {
-            'cursor-pointer': !matched && !selected,
-          })}
-          aria-label={`Card to flip`}
-        />
-      </div>
-    </div>
-  )
-}
 
 // BOARD
 export const Board = () => {
