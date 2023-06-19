@@ -38,20 +38,24 @@ export const useBoardState = create<BoardState>((set) => ({
     }),
   checkCard: (card: CardData) =>
     set((state) => {
-      if (!state.currentCard) {
-        return { ...state, currentCard: card }
+      const selectedCards = {
+        ...state.cards,
+        [card.id]: { ...card, selected: true },
       }
 
+      if (!state.currentCard)
+        return { ...state, cards: selectedCards, currentCard: card }
+
       if (state.currentCard.cardNumber === card.cardNumber) {
-        const cards = {
+        const matchedCards = {
           ...state.cards,
           [card.id]: { ...card, matched: true },
           [state.currentCard.id]: { ...state.currentCard, matched: true },
         }
 
-        return { ...state, cards, currentCard: null }
+        return { ...state, cards: matchedCards, currentCard: null }
       }
 
-      return { ...state, currentCard: null }
+      return { ...state, cards: selectedCards, currentCard: null }
     }),
 }))
