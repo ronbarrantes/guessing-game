@@ -16,12 +16,12 @@ export interface CardData {
 }
 
 interface CardProps extends CardData {
-  handleMatch: (cardId: number) => void
+  handleMatch: (id: string) => void
 }
 
-const Card = ({ handleMatch, cardNumber, matched, selected }: CardProps) => {
+const Card = ({ handleMatch, id, matched, selected }: CardProps) => {
   const handleClick = () => {
-    handleMatch(cardNumber)
+    handleMatch(id)
   }
   return (
     <div
@@ -42,7 +42,11 @@ const Card = ({ handleMatch, cardNumber, matched, selected }: CardProps) => {
 
 export const Board = () => {
   const dialogStore = useBoardState()
-  const { cards, loadCards } = dialogStore
+  const { cards, loadCards, checkCard } = dialogStore
+
+  const handleMatch = (id: string) => {
+    checkCard(cards[id])
+  }
 
   useEffect(() => {
     buildCardData().then((cardData) => {
@@ -50,13 +54,9 @@ export const Board = () => {
     })
   }, [loadCards])
 
-  const handleMatch = (cardId: number) => {
-    console.log('handleMatch', cardId)
-  }
-
   return (
     <main className="flex grow h-full flex-wrap overflow-hidden">
-      {Object.values(cards).map((card, idx) => {
+      {Object.values(cards).map((card) => {
         const id = card.id
         return <Card key={id} {...card} handleMatch={handleMatch} />
       })}

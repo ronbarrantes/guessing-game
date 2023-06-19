@@ -1,8 +1,10 @@
 const getCardImage = async (width = 200, height?: number) => {
   !height ? (height = width) : height
-  const image = await fetch(`https://picsum.photos/${width}/${height}`)
-  const result = image.url
-  return result
+  // const image = await fetch(`https://picsum.photos/${width}/${height}`)
+  // const result = image.url
+  // return result
+
+  return 'stuff'
 }
 
 const getImageList = async (count = 4) => {
@@ -17,9 +19,8 @@ const makeColorRandomColor = () => {
   return `#${randomColor}`
 }
 
-const randomizeCardData = <T>(cardData: T[]) => ({
-  ...cardData.sort(() => Math.random() - 0.5),
-})
+const randomizeCardData = <T>(cardData: T[]) =>
+  cardData.sort(() => Math.random() - 0.5)
 
 export const buildCardData = async () => {
   const images = await getImageList()
@@ -32,10 +33,12 @@ export const buildCardData = async () => {
     cardColor: makeColorRandomColor(),
   }))
 
-  return randomizeCardData(
+  const data = randomizeCardData(
     [...cardData, ...cardData].map((card, idx) => ({
       ...card,
       id: `${card.cardNumber}_${idx}`,
     })),
   )
+
+  return data.reduce((acc, card) => ({ ...acc, [card.id]: card }), {})
 }
