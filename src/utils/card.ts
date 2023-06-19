@@ -24,7 +24,7 @@ const randomizeCardData = <T>(cardData: T[]) => ({
 export const buildCardData = async () => {
   const images = await getImageList()
   const cardData = images.map((image, idx) => ({
-    cardId: idx,
+    cardNumber: idx,
     matched: false,
     selected: false,
     cardImage: image,
@@ -32,5 +32,10 @@ export const buildCardData = async () => {
     cardColor: makeColorRandomColor(),
   }))
 
-  return randomizeCardData([...cardData, ...cardData])
+  return randomizeCardData(
+    [...cardData, ...cardData].map((card, idx) => ({
+      ...card,
+      id: `${card.cardNumber}_${idx}`,
+    })),
+  )
 }
