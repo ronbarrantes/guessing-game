@@ -6,6 +6,7 @@ type Cards = Record<string, CardData>
 
 interface BoardState {
   cards: Cards
+  guessCount: number
   currentCard: CardData | null
   difficulty: 'EASY' | 'MEDIUM' | 'HARD' | 'IMPOSSIBLE'
   isGameOver: boolean
@@ -16,6 +17,7 @@ interface BoardState {
   resetGame: () => void
   checkCard: (card: CardData) => void
   clearSelectedCards: () => void
+  increaseGuessCount: () => void
 }
 
 export const useBoardState = create<BoardState>((set) => ({
@@ -24,8 +26,11 @@ export const useBoardState = create<BoardState>((set) => ({
   isGameOver: false,
   currentCard: null,
   boardDisabled: false,
-  resetGame: () => set({ cards: {}, isGameOver: false }),
-  loadCards: (cards: Cards) => set({ cards }),
+  guessCount: 0,
+  increaseGuessCount: () =>
+    set((state) => ({ guessCount: state.guessCount + 0.5 })),
+  resetGame: () => set({ cards: {}, isGameOver: false, guessCount: 0 }),
+  loadCards: (cards: Cards) => set({ cards, isGameOver: false, guessCount: 0 }),
   chooseDifficulty: (difficulty: BoardState['difficulty']) =>
     set({ difficulty }),
   setGameOver: (isGameOver: boolean) => set({ isGameOver }),
