@@ -40,5 +40,5 @@ export const buildCardData = async () => {
     })),
   )
 
-  return data.reduce((acc, card) => ({ ...acc, [card.id]: card }), {})
+  return data.reduce((cards, card) => ({ ...cards, [card.id]: card }), {})
 }

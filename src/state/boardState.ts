@@ -13,6 +13,7 @@ interface BoardState {
   chooseDifficulty: (difficulty: BoardState['difficulty']) => void
   setGameOver: (isGameOver: boolean) => void
   checkCard: (card: CardData) => void
+  clearSelectedCards: () => void
 }
 
 export const useBoardState = create<BoardState>((set) => ({
@@ -24,6 +25,17 @@ export const useBoardState = create<BoardState>((set) => ({
     set({ difficulty }),
   setGameOver: (isGameOver: boolean) => set({ isGameOver }),
   currentCard: null,
+  clearSelectedCards: () =>
+    set((state) => {
+      const cards = Object.values(state.cards).reduce(
+        (cardList, card) => ({
+          ...cardList,
+          [card.id]: { ...card, selected: false },
+        }),
+        {},
+      )
+      return { ...state, cards }
+    }),
   checkCard: (card: CardData) =>
     set((state) => {
       if (!state.currentCard) {
