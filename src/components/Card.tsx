@@ -6,22 +6,23 @@ interface CardData {
   matched: boolean
   selected: boolean
   cardImage: string
-  cardText: string
   cardColor: string
 }
 
 interface CardProps extends CardData {
   disabled: boolean
+  cardEmoji: string
   handleMatch: () => void
 }
 
 // CARD
 export const Card = ({
-  handleMatch,
   matched,
   selected,
   cardImage,
+  cardEmoji,
   disabled,
+  handleMatch,
 }: CardProps) => {
   return (
     <div
@@ -50,7 +51,7 @@ export const Card = ({
             )}
             aria-label={`Card to flip`}
           >
-            😊
+            {cardEmoji}
           </button>
           <div className="flip-card-back rounded-3xl bg-green-300 absolute w-full h-full">
             <img
