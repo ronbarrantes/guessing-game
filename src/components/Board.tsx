@@ -16,13 +16,10 @@ export interface CardData {
 }
 
 interface CardProps extends CardData {
-  handleMatch: (id: string) => void
+  handleMatch: () => void
 }
 
-const Card = ({ handleMatch, id, matched, selected }: CardProps) => {
-  const handleClick = () => {
-    handleMatch(id)
-  }
+const Card = ({ handleMatch, matched, selected, cardNumber }: CardProps) => {
   return (
     <div
       className={classNames(
@@ -32,10 +29,10 @@ const Card = ({ handleMatch, id, matched, selected }: CardProps) => {
         { 'bg-gray-500': !matched && !selected },
         { 'cursor-pointer': !matched && !selected },
       )}
-      onClick={handleClick}
+      onClick={handleMatch}
       aria-disabled={matched || selected}
     >
-      stuff
+      {cardNumber}
     </div>
   )
 }
@@ -58,7 +55,7 @@ export const Board = () => {
     <main className="flex grow h-full flex-wrap overflow-hidden">
       {Object.values(cards).map((card) => {
         const id = card.id
-        return <Card key={id} {...card} handleMatch={handleMatch} />
+        return <Card key={id} {...card} handleMatch={() => handleMatch(id)} />
       })}
     </main>
   )
