@@ -13,9 +13,7 @@ const App = () => {
       <header>
         <div>Title</div>
       </header>
-
       <Board />
-
       <footer>
         <div>Footer</div>
       </footer>
