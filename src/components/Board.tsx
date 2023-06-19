@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import classNames from 'classnames'
 
@@ -16,46 +16,102 @@ export interface CardData {
 }
 
 interface CardProps extends CardData {
+  disabled: boolean
   handleMatch: () => void
 }
 
-const Card = ({ handleMatch, matched, selected, cardNumber }: CardProps) => {
+const Card = ({
+  handleMatch,
+  matched,
+  selected,
+  cardNumber,
+  disabled,
+}: CardProps) => {
   return (
     <div
       className={classNames(
-        'w-1/4 h-1/2 border border-black',
-        { 'bg-green-500': matched },
-        { 'bg-red-500': selected },
-        { 'bg-gray-500': !matched && !selected },
-        { 'cursor-pointer': !matched && !selected },
+        'w-1/4 h-1/2 border border-red-400 flex justify-center items-center',
       )}
-      onClick={handleMatch}
       aria-disabled={matched || selected}
     >
-      {cardNumber}
+      <button
+        onClick={handleMatch}
+        disabled={matched || selected || disabled}
+        className={classNames(
+          'w-40 h-40',
+          { 'bg-green-500': matched },
+          { 'bg-red-500': selected },
+          { 'bg-gray-500': !matched && !selected },
+          { 'cursor-pointer': !matched && !selected },
+        )}
+      >
+        {cardNumber}
+      </button>
     </div>
   )
 }
 
 export const Board = () => {
   const dialogStore = useBoardState()
-  const { cards, loadCards, checkCard } = dialogStore
-
-  const handleMatch = (id: string) => {
-    checkCard(cards[id])
-  }
+  const [loading, setLoading] = useState(true)
+  const {
+    cards,
+    loadCards,
+    checkCard,
+    boardDisabled,
+    setGameOver,
+    isGameOver,
+    clearSelectedCards,
+    resetGame,
+  } = dialogStore
 
   useEffect(() => {
+    if (!loading) return
     buildCardData().then((cardData) => {
       loadCards(cardData)
+      setLoading(false)
     })
-  }, [loadCards])
+  }, [loadCards, setLoading, loading])
+
+  useEffect(() => {
+    const hasMatchedCards = Object.values(cards).every((card) => card.matched)
+    setGameOver(hasMatchedCards)
+
+    if (boardDisabled) {
+      setTimeout(() => {
+        clearSelectedCards()
+      }, 1000)
+    }
+  }, [boardDisabled, cards, clearSelectedCards, setGameOver])
 
   return (
     <main className="flex grow h-full flex-wrap overflow-hidden">
+      {isGameOver && (
+        <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-4 rounded-lg text-black">
+            <h2>Game Over</h2>
+            <button
+              onClick={() => {
+                resetGame()
+                loadCards(cards)
+                setLoading(true)
+              }}
+            >
+              Play Again
+            </button>
+          </div>
+        </div>
+      )}
       {Object.values(cards).map((card) => {
         const id = card.id
-        return <Card key={id} {...card} handleMatch={() => handleMatch(id)} />
+        return (
+          <Card
+            key={id}
+            disabled={boardDisabled}
+            {...card}
+            handleMatch={() => checkCard(cards[id])}
+          />
+        )
       })}
     </main>
   )

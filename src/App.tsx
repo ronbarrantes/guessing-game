@@ -9,7 +9,7 @@ import './App.css'
 
 const App = () => {
   return (
-    <div className="flex h-screen w-screen flex-col p-2 py-2' border border-red-500">
+    <div className="flex h-screen w-screen flex-col p-2">
       <header>
         <div>Title</div>
       </header>
