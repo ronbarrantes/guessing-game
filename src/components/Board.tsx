@@ -4,6 +4,7 @@ import classNames from 'classnames'
 
 import { useBoardState } from '@/state/boardState'
 import { buildCardData } from '@/utils/card'
+import { LoadingPage } from './Loaders'
 
 export interface CardData {
   id: string
@@ -20,10 +21,12 @@ interface CardProps extends CardData {
   handleMatch: () => void
 }
 
+// CARD
 const Card = ({
   handleMatch,
   matched,
   selected,
+  cardImage,
   cardNumber,
   disabled,
 }: CardProps) => {
@@ -34,23 +37,31 @@ const Card = ({
       )}
       aria-disabled={matched || selected}
     >
-      <button
-        onClick={handleMatch}
-        disabled={matched || selected || disabled}
+      <div
         className={classNames(
-          'w-40 h-40',
-          { 'bg-green-500': matched },
-          { 'bg-red-500': selected },
-          { 'bg-gray-500': !matched && !selected },
-          { 'cursor-pointer': !matched && !selected },
+          'm-5 !border-5 !border-blue-500 border-transparent w-fit h-fit flex justify-center items-center rounded-full ',
+          { 'bg-green-500 border-green-500': matched },
+          { 'bg-red-500 border-red-500': selected },
+          { 'bg-gray-500 border-gray-500': !matched && !selected },
         )}
       >
-        {cardNumber}
-      </button>
+        <button
+          style={{
+            backgroundImage: `url(${cardImage})`,
+          }}
+          onClick={handleMatch}
+          disabled={matched || selected || disabled}
+          className={classNames('w-40 p-2 h-40', {
+            'cursor-pointer': !matched && !selected,
+          })}
+          aria-label={`Card to flip`}
+        />
+      </div>
     </div>
   )
 }
 
+// BOARD
 export const Board = () => {
   const dialogStore = useBoardState()
   const [loading, setLoading] = useState(true)
@@ -59,6 +70,7 @@ export const Board = () => {
     loadCards,
     checkCard,
     boardDisabled,
+    increaseGuessCount,
     setGameOver,
     isGameOver,
     clearSelectedCards,
@@ -82,7 +94,18 @@ export const Board = () => {
         clearSelectedCards()
       }, 1000)
     }
-  }, [boardDisabled, cards, clearSelectedCards, setGameOver])
+  }, [
+    boardDisabled,
+    cards,
+    increaseGuessCount,
+    clearSelectedCards,
+    setGameOver,
+  ])
+
+  if (loading) {
+    console.log('CARDS', cards)
+    return <LoadingPage />
+  }
 
   return (
     <main className="flex grow h-full flex-wrap overflow-hidden">
@@ -109,12 +132,13 @@ export const Board = () => {
             key={id}
             disabled={boardDisabled}
             {...card}
-            handleMatch={() => checkCard(cards[id])}
+            handleMatch={() => {
+              checkCard(cards[id])
+              increaseGuessCount()
+            }}
           />
         )
       })}
     </main>
   )
 }
-
-Board.Card = Card
