@@ -47,12 +47,11 @@ export const Board = () => {
     setGameOver,
   ])
 
-  const cardEmoji = emojis[Math.floor(Math.random() * emojis.length)]
-
   if (loading) {
-    console.log('CARDS', cards)
     return <LoadingPage />
   }
+
+  const cardEmoji = emojis[1] //emojis[Math.floor(Math.random() * emojis.length)]
 
   return (
     <main className="flex grow h-full flex-wrap overflow-hidden">
