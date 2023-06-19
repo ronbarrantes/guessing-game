@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-import { CardData } from '@components/Board'
+import { CardData } from '@components/Card'
 
 type Cards = Record<string, CardData>
 

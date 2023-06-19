@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 
-interface CardData {
+export interface CardData {
   id: string
   cardNumber: number
   matched: boolean
