@@ -1,13 +1,6 @@
 import { Board } from '@/components/Board'
 import { useBoardState } from '@/state/boardState'
 
-import './App.css'
-
-// ADD THE CARDS COMPONENT
-// ADD THE TITLE
-// ADD THE LEVEL EASY MEDIUM HARD
-// ADD THE GUESSES
-
 const App = () => {
   const { guessCount } = useBoardState()
 
