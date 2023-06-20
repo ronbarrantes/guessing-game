@@ -50,7 +50,7 @@ export const Board = () => {
     return <LoadingPage />
   }
 
-  const cardEmoji = getEmoji() //emojis[Math.floor(Math.random() * emojis.length)]
+  const cardEmoji = getEmoji()
 
   return (
     <main className="flex h-full grow flex-wrap overflow-hidden">
