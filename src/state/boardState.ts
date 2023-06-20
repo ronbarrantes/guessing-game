@@ -5,46 +5,28 @@ import { CardData } from '@components/Card'
 type Cards = Record<string, CardData>
 
 interface BoardState {
+  boardDisabled: boolean
   cards: Cards
-  guessCount: number
   currentCard: CardData | null
   difficulty: 'EASY' | 'MEDIUM' | 'HARD' | 'IMPOSSIBLE'
+  guessCount: number
   isGameOver: boolean
-  boardDisabled: boolean
-  loadCards: (cards: Cards) => void
-  chooseDifficulty: (difficulty: BoardState['difficulty']) => void
-  setGameOver: (isGameOver: boolean) => void
-  resetGame: () => void
   checkCard: (card: CardData) => void
   clearSelectedCards: () => void
+  loadCards: (cards: Cards) => void
   increaseGuessCount: () => void
+  resetGame: () => void
+  setDifficulty: (difficulty: BoardState['difficulty']) => void
+  setGameOver: (isGameOver: boolean) => void
 }
 
 export const useBoardState = create<BoardState>((set) => ({
+  boardDisabled: false,
   cards: {},
   difficulty: 'EASY',
-  isGameOver: false,
   currentCard: null,
-  boardDisabled: false,
   guessCount: 0,
-  increaseGuessCount: () =>
-    set((state) => ({ guessCount: state.guessCount + 0.5 })),
-  resetGame: () => set({ cards: {}, isGameOver: false, guessCount: 0 }),
-  loadCards: (cards: Cards) => set({ cards, isGameOver: false, guessCount: 0 }),
-  chooseDifficulty: (difficulty: BoardState['difficulty']) =>
-    set({ difficulty }),
-  setGameOver: (isGameOver: boolean) => set({ isGameOver }),
-  clearSelectedCards: () =>
-    set((state) => {
-      const cards = Object.values(state.cards).reduce(
-        (cardList, card) => ({
-          ...cardList,
-          [card.id]: { ...card, selected: false },
-        }),
-        {},
-      )
-      return { ...state, cards, boardDisabled: false }
-    }),
+  isGameOver: false,
   checkCard: (card: CardData) =>
     set((state) => {
       const selectedCards = {
@@ -71,4 +53,21 @@ export const useBoardState = create<BoardState>((set) => ({
         boardDisabled: true,
       }
     }),
+  clearSelectedCards: () =>
+    set((state) => {
+      const cards = Object.values(state.cards).reduce(
+        (cardList, card) => ({
+          ...cardList,
+          [card.id]: { ...card, selected: false },
+        }),
+        {},
+      )
+      return { ...state, cards, boardDisabled: false }
+    }),
+  increaseGuessCount: () =>
+    set((state) => ({ guessCount: state.guessCount + 0.5 })),
+  loadCards: (cards: Cards) => set({ cards, isGameOver: false, guessCount: 0 }),
+  resetGame: () => set({ cards: {}, isGameOver: false, guessCount: 0 }),
+  setDifficulty: (difficulty: BoardState['difficulty']) => set({ difficulty }),
+  setGameOver: (isGameOver: boolean) => set({ isGameOver }),
 }))
