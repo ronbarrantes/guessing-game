@@ -53,7 +53,7 @@ export const Board = () => {
   const cardEmoji = getEmoji()
 
   return (
-    <main className="flex h-full grow flex-wrap overflow-hidden">
+    <main className="m-auto flex h-full grow flex-wrap overflow-hidden border border-red-500 2xl:w-10/12">
       {isGameOver && (
         <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-50">
           <div className="z-20 flex flex-col gap-3 rounded-lg bg-white p-4 text-black shadow-lg shadow-black">
