@@ -1,24 +1,18 @@
 import { Board } from '@/components/Board'
 import { useBoardState } from '@/state/boardState'
 
-import './App.css'
-
-// ADD THE CARDS COMPONENT
-// ADD THE TITLE
-// ADD THE LEVEL EASY MEDIUM HARD
-// ADD THE GUESSES
-
 const App = () => {
-  const { guessCount } = useBoardState()
+  const { guessCount, difficulty } = useBoardState()
 
   return (
     <div className="flex h-screen w-screen flex-col p-2">
-      <header>
-        <div>Matching game</div>
+      <header className="m-auto flex items-center justify-between lg:w-10/12">
+        <h1 className="text-2xl">Matching game</h1>
+        <span>Level: {difficulty}</span>
       </header>
       <Board />
-      <footer className="justify-center flex">
-        <div>Guess count: {Math.floor(guessCount)}</div>
+      <footer className="flex justify-center">
+        <div className="text-2xl">Guess count: {Math.floor(guessCount)}</div>
       </footer>
     </div>
   )

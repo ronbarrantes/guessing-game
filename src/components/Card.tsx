@@ -26,17 +26,17 @@ export const Card = ({
 }: CardProps) => {
   return (
     <div
-      className={classNames('w-1/4 h-1/2 flex justify-center items-center')}
+      className={classNames('flex h-1/2 w-1/4 items-center justify-center')}
       aria-disabled={matched || selected}
     >
-      <div className={classNames('flip-card m-5 w-48 h-48 bg-transparent')}>
+      <div className={classNames('flip-card m-5 h-48 w-48 bg-transparent')}>
         <div
           className={classNames(
-            'flip-card-inner w-full h-full relative border-2 border-transparent text-center rounded-3xl hover:border-yellow-500',
+            'flip-card-inner relative h-full w-full rounded-3xl border-2 border-transparent text-center hover:border-yellow-500',
             {
               'flip-action': matched || selected,
-              'bg-green-500 border-green-500': matched,
-              'bg-yellow-500 border-yellow-500': selected,
+              'border-green-500 bg-green-500': matched,
+              'border-yellow-500 bg-yellow-500': selected,
             },
           )}
         >
@@ -44,7 +44,7 @@ export const Card = ({
             onClick={handleMatch}
             disabled={matched || selected || disabled}
             className={classNames(
-              'flip-card-front block rounded-3xl text-6xl bg-blue-300 absolute w-full h-full',
+              'flip-card-front absolute block h-full w-full rounded-3xl bg-blue-300 text-6xl',
               {
                 'cursor-pointer': !matched && !selected,
               },
@@ -53,10 +53,10 @@ export const Card = ({
           >
             {cardEmoji}
           </button>
-          <div className="flip-card-back rounded-3xl bg-green-300 absolute w-full h-full">
+          <div className="flip-card-back absolute h-full w-full rounded-3xl bg-green-300">
             <img
               src={cardImage}
-              className="w-full h-full rounded-3xl object-fill"
+              className="h-full w-full rounded-3xl object-fill"
             />
           </div>
         </div>
