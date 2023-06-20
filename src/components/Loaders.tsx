@@ -21,13 +21,13 @@ export const LoadingSpinner = (props: { size?: number }) => {
       </svg>
       <span className="sr-only">Loading...</span>
     </div>
-  );
-};
+  )
+}
 
 export const LoadingPage = () => {
   return (
     <div className="flex h-screen items-center justify-center">
       <LoadingSpinner size={100} />
     </div>
-  );
-};
+  )
+}
