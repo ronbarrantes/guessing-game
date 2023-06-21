@@ -1,4 +1,5 @@
-import { Select } from '@/components'
+import { Select } from '@components'
+
 import { difficultyChoices } from '@/constants/difficultyChoices'
 import { useBoardState } from '@/state/boardState'
 

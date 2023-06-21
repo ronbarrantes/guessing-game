@@ -1,4 +1,4 @@
-import { Board, Footer, Header } from '@/components'
+import { Board, Footer, Header } from '@components'
 
 export const App = () => {
   return (

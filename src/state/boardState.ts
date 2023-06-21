@@ -1,6 +1,6 @@
+import { CardData } from '@components'
 import { create } from 'zustand'
 
-import { CardData } from '@/components/Card'
 import { type Difficulty } from '@/constants/difficultyChoices'
 
 type Cards = Record<string, CardData>

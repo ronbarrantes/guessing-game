@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
-import { Card } from '@/components/Card'
-import { LoadingPage } from '@/components/Loaders'
+import { Card, LoadingPage, Overlay } from '@components'
+
 import { useBoardState } from '@/state/boardState'
 import { buildCardData } from '@/utils/card'
 import { getEmoji } from '@/utils/emoji'
@@ -55,7 +55,7 @@ export const Board = () => {
   return (
     <main className="m-auto flex h-full grow flex-wrap overflow-hidden border border-red-500 2xl:w-10/12">
       {isGameOver && (
-        <>
+        <Overlay title="Game Over">
           <button
             className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
             onClick={() => {
@@ -66,7 +66,7 @@ export const Board = () => {
           >
             Play Again
           </button>
-        </>
+        </Overlay>
       )}
       {Object.values(cards).map((card) => {
         const id = card.id
