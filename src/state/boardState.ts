@@ -10,6 +10,7 @@ interface BoardState {
   cards: Cards
   currentCard: CardData | null
   difficulty: Difficulty
+  gamesPlayed: number
   guessCount: number
   isGameOver: boolean
   checkCard: (card: CardData) => void
@@ -26,6 +27,7 @@ export const useBoardState = create<BoardState>((set) => ({
   cards: {},
   difficulty: 'EASY',
   currentCard: null,
+  gamesPlayed: 0,
   guessCount: 0,
   isGameOver: false,
   checkCard: (card: CardData) =>
@@ -70,5 +72,6 @@ export const useBoardState = create<BoardState>((set) => ({
   loadCards: (cards: Cards) => set({ cards, isGameOver: false, guessCount: 0 }),
   resetGame: () => set({ cards: {}, isGameOver: false, guessCount: 0 }),
   setDifficulty: (difficulty: BoardState['difficulty']) => set({ difficulty }),
-  setGameOver: (isGameOver: boolean) => set({ isGameOver }),
+  setGameOver: (isGameOver: boolean) =>
+    set((state) => ({ gamesPlayed: state.gamesPlayed + 1, isGameOver })),
 }))
