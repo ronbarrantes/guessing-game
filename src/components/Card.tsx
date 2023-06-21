@@ -1,5 +1,7 @@
 import classNames from 'classnames'
 
+import { useBoardState } from '@/state/boardState'
+
 export interface CardData {
   id: string
   cardNumber: number
@@ -15,6 +17,13 @@ interface CardProps extends CardData {
   handleMatch: () => void
 }
 
+const difficultyStyles: Record<string, string> = {
+  EASY: 'easy',
+  MEDIUM: 'medium',
+  HARD: 'hard',
+  IMPOSSIBLE: 'impossible',
+}
+
 // CARD
 export const Card = ({
   matched,
@@ -22,14 +31,24 @@ export const Card = ({
   cardImage,
   cardEmoji,
   disabled,
+  // cardColor,
   handleMatch,
 }: CardProps) => {
+  const { difficulty } = useBoardState()
+
   return (
     <div
-      className={classNames('flex h-1/2 w-1/4 items-center justify-center')}
+      // this is in control of the space taken by the card
+      className={classNames(
+        'flex items-center justify-center text-6xl',
+        difficultyStyles[difficulty],
+      )}
       aria-disabled={matched || selected}
     >
-      <div className={classNames('flip-card m-5 h-48 w-48 bg-transparent')}>
+      <div
+        // this is the card itself
+        className={classNames('flip-card m-5 h-48 w-48 bg-transparent')}
+      >
         <div
           className={classNames(
             'flip-card-inner relative h-full w-full rounded-3xl border-2 border-transparent text-center hover:border-yellow-500',
@@ -44,7 +63,7 @@ export const Card = ({
             onClick={handleMatch}
             disabled={matched || selected || disabled}
             className={classNames(
-              'flip-card-front absolute block h-full w-full rounded-3xl bg-blue-300 text-6xl',
+              'flip-card-front absolute block h-full w-full rounded-3xl bg-blue-300 ',
               {
                 'cursor-pointer': !matched && !selected,
               },
@@ -53,10 +72,10 @@ export const Card = ({
           >
             {cardEmoji}
           </button>
-          <div className="flip-card-back absolute h-full w-full rounded-3xl bg-green-300">
+          <div className="absolute w-full h-full bg-green-300 flip-card-back rounded-3xl">
             <img
               src={cardImage}
-              className="h-full w-full rounded-3xl object-fill"
+              className="object-cover w-full h-full rounded-3xl"
             />
           </div>
         </div>

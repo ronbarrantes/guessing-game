@@ -6,7 +6,6 @@ import {
   Overlay,
   // Select
 } from '@components'
-import classNames from 'classnames'
 
 import {
   difficultyBoardSize,
@@ -71,7 +70,6 @@ export const Board = () => {
           <div className="flex justify-center gap-3">
             {difficultyChoices.map((d) => (
               <DifficultyButton
-                // select={difficulty === 'EASY'}
                 setDifficulty={() => setDifficulty(d)}
                 key={`btn-${d}`}
                 difficulty={d}
