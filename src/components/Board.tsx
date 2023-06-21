@@ -52,7 +52,7 @@ export const Board = () => {
   }
 
   return (
-    <main className="m-auto flex h-full grow flex-wrap overflow-hidden 2xl:w-10/12">
+    <main className="flex flex-wrap h-full m-auto overflow-hidden grow 2xl:w-10/12">
       {isGameOver && (
         <Overlay title={gamesPlayed === 0 ? 'Wanna Play?' : 'Play Again?'}>
           <p>Games played {gamesPlayed}</p>
@@ -66,7 +66,7 @@ export const Board = () => {
           /> */}
 
           <button
-            className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+            className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
             onClick={async () => {
               resetGame()
               setEmoji(getEmoji())
@@ -74,7 +74,7 @@ export const Board = () => {
               loadCards(cards)
             }}
           >
-            Play Again
+            {gamesPlayed === 0 ? 'Start' : 'Play Again'}
           </button>
         </Overlay>
       )}
