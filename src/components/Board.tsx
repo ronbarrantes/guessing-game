@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'react'
 
-import { Card, LoadingPage, Overlay, Select } from '@components'
+import {
+  Card,
+  LoadingPage,
+  Overlay,
+  // Select
+} from '@components'
 
-import { difficultyChoices } from '@/constants/difficultyChoices'
+// import { difficultyChoices } from '@/constants/difficultyChoices'
 import { useBoardState } from '@/state/boardState'
 import { buildCardData } from '@/utils/card'
 import { getEmoji } from '@/utils/emoji'
