@@ -29,7 +29,7 @@ export const useBoardState = create<BoardState>((set) => ({
   currentCard: null,
   gamesPlayed: 0,
   guessCount: 0,
-  isGameOver: false,
+  isGameOver: true,
   checkCard: (card: CardData) =>
     set((state) => {
       const selectedCards = {
@@ -69,8 +69,14 @@ export const useBoardState = create<BoardState>((set) => ({
     }),
   increaseGuessCount: () =>
     set((state) => ({ guessCount: state.guessCount + 0.5 })),
-  loadCards: (cards: Cards) => set({ cards, isGameOver: false, guessCount: 0 }),
-  resetGame: () => set({ cards: {}, isGameOver: false, guessCount: 0 }),
+  loadCards: (cards: Cards) => set({ cards, guessCount: 0 }),
+  resetGame: () =>
+    set({
+      cards: {},
+      isGameOver: false,
+      guessCount: 0,
+      currentCard: null,
+    }),
   setDifficulty: (difficulty: BoardState['difficulty']) => set({ difficulty }),
   setGameOver: (isGameOver: boolean) =>
     set((state) => ({ gamesPlayed: state.gamesPlayed + 1, isGameOver })),

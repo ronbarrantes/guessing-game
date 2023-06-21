@@ -1,37 +1,33 @@
 import { useEffect, useState } from 'react'
 
-import { Card, LoadingPage, Overlay } from '@components'
+import { Card, LoadingPage, Overlay, Select } from '@components'
 
+import { difficultyChoices } from '@/constants/difficultyChoices'
 import { useBoardState } from '@/state/boardState'
 import { buildCardData } from '@/utils/card'
 import { getEmoji } from '@/utils/emoji'
 
 export const Board = () => {
-  const dialogStore = useBoardState()
-  const [loading, setLoading] = useState(true)
+  const [emoji, setEmoji] = useState('')
+
   const {
     cards,
     loadCards,
     checkCard,
     boardDisabled,
     increaseGuessCount,
+    gamesPlayed,
     setGameOver,
     isGameOver,
     clearSelectedCards,
     resetGame,
-  } = dialogStore
+  } = useBoardState()
+
+  const hasLoadedCards = Object.keys(cards).length > 0
+  const allCardsMatched = Object.values(cards).every((card) => card.matched)
 
   useEffect(() => {
-    if (!loading) return
-    buildCardData().then((cardData) => {
-      loadCards(cardData)
-      setLoading(false)
-    })
-  }, [loadCards, setLoading, loading])
-
-  useEffect(() => {
-    const hasMatchedCards = Object.values(cards).every((card) => card.matched)
-    setGameOver(hasMatchedCards)
+    if (hasLoadedCards && allCardsMatched) setGameOver(allCardsMatched)
 
     if (boardDisabled) {
       setTimeout(() => {
@@ -39,29 +35,38 @@ export const Board = () => {
       }, 1000)
     }
   }, [
+    allCardsMatched,
     boardDisabled,
-    cards,
-    increaseGuessCount,
     clearSelectedCards,
+    hasLoadedCards,
     setGameOver,
   ])
 
-  if (loading) {
+  if (!isGameOver && !hasLoadedCards) {
     return <LoadingPage />
   }
 
-  const cardEmoji = getEmoji()
-
   return (
-    <main className="m-auto flex h-full grow flex-wrap overflow-hidden border border-red-500 2xl:w-10/12">
+    <main className="m-auto flex h-full grow flex-wrap overflow-hidden 2xl:w-10/12">
       {isGameOver && (
-        <Overlay title="Game Over">
+        <Overlay title={gamesPlayed === 0 ? 'Wanna Play?' : 'Play Again?'}>
+          <p>Games played {gamesPlayed}</p>
+
+          {/* 
+          TODO: add the difficulty level
+          <Select
+            name="difficulty"
+            setSelection={setDifficulty}
+            selectChoices={difficultyChoices}
+          /> */}
+
           <button
             className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
-            onClick={() => {
+            onClick={async () => {
               resetGame()
+              setEmoji(getEmoji())
+              const cards = await buildCardData()
               loadCards(cards)
-              setLoading(true)
             }}
           >
             Play Again
@@ -75,7 +80,7 @@ export const Board = () => {
             key={id}
             disabled={boardDisabled}
             {...card}
-            cardEmoji={cardEmoji}
+            cardEmoji={emoji}
             handleMatch={() => {
               checkCard(cards[id])
               increaseGuessCount()
