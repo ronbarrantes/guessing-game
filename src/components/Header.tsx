@@ -1,8 +1,9 @@
-import { Selection } from '@/components/Selection'
+import { Select } from '@/components/Select'
+import { difficultyChoices } from '@/constants/difficultyChoices'
 import { useBoardState } from '@/state/boardState'
 
 export const Header = () => {
-  const { difficulty, guessCount } = useBoardState()
+  const { difficulty, guessCount, setDifficulty } = useBoardState()
 
   return (
     <header className="m-auto flex w-full items-center justify-between border border-green-500 lg:w-10/12 ">
@@ -10,7 +11,11 @@ export const Header = () => {
       <div className="text-2xl">Guess count: {Math.floor(guessCount)}</div>
       <div className="flex gap-2">
         <span>Level: {difficulty}</span>
-        <Selection />
+        <Select
+          name="difficulty"
+          setSelection={setDifficulty}
+          selectChoices={difficultyChoices}
+        />
       </div>
     </header>
   )
