@@ -6,11 +6,14 @@ import {
   Overlay,
   // Select
 } from '@components'
+import classNames from 'classnames'
 
+import { difficultyChoices } from '@/constants/difficultyChoices'
 // import { difficultyChoices } from '@/constants/difficultyChoices'
 import { useBoardState } from '@/state/boardState'
 import { buildCardData } from '@/utils/card'
 import { getEmoji } from '@/utils/emoji'
+import { DifficultyButton } from './DifficultyButton'
 
 export const Board = () => {
   const [emoji, setEmoji] = useState('')
@@ -23,6 +26,7 @@ export const Board = () => {
     increaseGuessCount,
     gamesPlayed,
     setGameOver,
+    setDifficulty,
     isGameOver,
     clearSelectedCards,
     resetGame,
@@ -55,15 +59,21 @@ export const Board = () => {
     <main className="flex flex-wrap h-full m-auto overflow-hidden grow 2xl:w-10/12">
       {isGameOver && (
         <Overlay title={gamesPlayed === 0 ? 'Wanna Play?' : 'Play Again?'}>
-          <p>Games played {gamesPlayed}</p>
+          <div className="flex justify-between">
+            <span className="">Difficulty:</span>
+            <span>Games played {gamesPlayed}</span>
+          </div>
 
-          {/* 
-          TODO: add the difficulty level
-          <Select
-            name="difficulty"
-            setSelection={setDifficulty}
-            selectChoices={difficultyChoices}
-          /> */}
+          <div className="flex justify-center gap-3">
+            {difficultyChoices.map((difficulty) => (
+              <DifficultyButton
+                // select={difficulty === 'EASY'}
+                setDifficulty={() => setDifficulty(difficulty)}
+                key={`btn-${difficulty}`}
+                difficulty={difficulty}
+              />
+            ))}
+          </div>
 
           <button
             className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
