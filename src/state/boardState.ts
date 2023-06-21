@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 
 import { CardData } from '@components/Card'
+import { type Difficulty } from '@/constants/difficultyChoices'
 
 type Cards = Record<string, CardData>
 
@@ -8,7 +9,7 @@ interface BoardState {
   boardDisabled: boolean
   cards: Cards
   currentCard: CardData | null
-  difficulty: 'EASY' | 'MEDIUM' | 'HARD' | 'IMPOSSIBLE'
+  difficulty: Difficulty
   guessCount: number
   isGameOver: boolean
   checkCard: (card: CardData) => void
