@@ -5,7 +5,7 @@ const getCardImage = async (width = 200, height?: number) => {
   return result
 }
 
-const getImageList = async (count = 4) => {
+const getImageList = async (count: number) => {
   const images = await Promise.all(
     Array.from({ length: count }, () => getCardImage()),
   )
@@ -20,15 +20,15 @@ const makeColorRandomColor = () => {
 const randomizeCardData = <T>(cardData: T[]) =>
   cardData.sort(() => Math.random() - 0.5)
 
-export const buildCardData = async () => {
-  const images = await getImageList()
+export const buildCardData = async (count = 3) => {
+  const images = await getImageList(count)
   const cardData = images.map((image, idx) => ({
     cardNumber: idx,
     matched: false,
     selected: false,
     cardImage: image,
     cardText: `Card ${idx}`,
-    cardColor: makeColorRandomColor(),
+    cardColor: makeColorRandomColor(), // this will help use it
   }))
 
   const data = randomizeCardData(

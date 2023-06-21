@@ -8,7 +8,10 @@ import {
 } from '@components'
 import classNames from 'classnames'
 
-import { difficultyChoices } from '@/constants/difficultyChoices'
+import {
+  difficultyBoardSize,
+  difficultyChoices,
+} from '@/constants/difficultyChoices'
 // import { difficultyChoices } from '@/constants/difficultyChoices'
 import { useBoardState } from '@/state/boardState'
 import { buildCardData } from '@/utils/card'
@@ -26,6 +29,7 @@ export const Board = () => {
     increaseGuessCount,
     gamesPlayed,
     setGameOver,
+    difficulty,
     setDifficulty,
     isGameOver,
     clearSelectedCards,
@@ -65,12 +69,12 @@ export const Board = () => {
           </div>
 
           <div className="flex justify-center gap-3">
-            {difficultyChoices.map((difficulty) => (
+            {difficultyChoices.map((d) => (
               <DifficultyButton
                 // select={difficulty === 'EASY'}
-                setDifficulty={() => setDifficulty(difficulty)}
-                key={`btn-${difficulty}`}
-                difficulty={difficulty}
+                setDifficulty={() => setDifficulty(d)}
+                key={`btn-${d}`}
+                difficulty={d}
               />
             ))}
           </div>
@@ -80,7 +84,7 @@ export const Board = () => {
             onClick={async () => {
               resetGame()
               setEmoji(getEmoji())
-              const cards = await buildCardData()
+              const cards = await buildCardData(difficultyBoardSize[difficulty])
               loadCards(cards)
             }}
           >
