@@ -5,9 +5,9 @@ const getCardImage = async (width = 200, height?: number) => {
   return result
 }
 
-const getImageList = async (count: number) => {
+const getImageList = async (count: number, size: number) => {
   const images = await Promise.all(
-    Array.from({ length: count }, () => getCardImage()),
+    Array.from({ length: count }, () => getCardImage(size)),
   )
   return images
 }
@@ -20,8 +20,8 @@ const makeColorRandomColor = () => {
 const randomizeCardData = <T>(cardData: T[]) =>
   cardData.sort(() => Math.random() - 0.5)
 
-export const buildCardData = async (count = 3) => {
-  const images = await getImageList(count)
+export const buildCardData = async (count: number, size: number) => {
+  const images = await getImageList(count, size)
   const cardData = images.map((image, idx) => ({
     cardNumber: idx,
     matched: false,

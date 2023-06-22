@@ -79,7 +79,8 @@ export const Board = () => {
               setEmoji(getEmoji())
               setDifficulty(prepDifficulty)
               const cards = await buildCardData(
-                difficultyBoardSize[prepDifficulty],
+                difficultyBoardSize[prepDifficulty].imgCount,
+                difficultyBoardSize[prepDifficulty].imgSize,
               )
               loadCards(cards)
             }}
