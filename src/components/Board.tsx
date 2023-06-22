@@ -1,19 +1,18 @@
 import { useEffect, useState } from 'react'
 
-import {
-  Card,
-  LoadingPage,
-  Overlay,
-  // Select
-} from '@components'
+import { Card, DifficultyButton, LoadingPage, Overlay } from '@components'
 
-// import { difficultyChoices } from '@/constants/difficultyChoices'
+import {
+  difficultyBoardSize,
+  difficultyChoices,
+} from '@/constants/difficultyChoices'
 import { useBoardState } from '@/state/boardState'
 import { buildCardData } from '@/utils/card'
 import { getEmoji } from '@/utils/emoji'
 
 export const Board = () => {
   const [emoji, setEmoji] = useState('')
+  const [prepDifficulty, setPrepDifficulty] = useState(difficultyChoices[0])
 
   const {
     cards,
@@ -23,6 +22,7 @@ export const Board = () => {
     increaseGuessCount,
     gamesPlayed,
     setGameOver,
+    setDifficulty,
     isGameOver,
     clearSelectedCards,
     resetGame,
@@ -55,22 +55,32 @@ export const Board = () => {
     <main className="flex flex-wrap h-full m-auto overflow-hidden grow 2xl:w-10/12">
       {isGameOver && (
         <Overlay title={gamesPlayed === 0 ? 'Wanna Play?' : 'Play Again?'}>
-          <p>Games played {gamesPlayed}</p>
+          <div className="flex justify-between">
+            <span className="">Difficulty:</span>
+            <span>Games played {gamesPlayed}</span>
+          </div>
 
-          {/* 
-          TODO: add the difficulty level
-          <Select
-            name="difficulty"
-            setSelection={setDifficulty}
-            selectChoices={difficultyChoices}
-          /> */}
+          <div className="flex justify-center gap-3">
+            {difficultyChoices.map((d) => (
+              <DifficultyButton
+                setDifficulty={() => setPrepDifficulty(d)}
+                selectedDifficulty={prepDifficulty}
+                key={`btn-${d}`}
+                difficulty={d}
+              />
+            ))}
+          </div>
 
           <button
             className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
             onClick={async () => {
               resetGame()
               setEmoji(getEmoji())
-              const cards = await buildCardData()
+              setDifficulty(prepDifficulty)
+              const cards = await buildCardData(
+                difficultyBoardSize[prepDifficulty].imgCount,
+                difficultyBoardSize[prepDifficulty].imgSize,
+              )
               loadCards(cards)
             }}
           >

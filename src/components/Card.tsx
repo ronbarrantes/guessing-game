@@ -1,5 +1,7 @@
 import classNames from 'classnames'
 
+import { useBoardState } from '@/state/boardState'
+
 export interface CardData {
   id: string
   cardNumber: number
@@ -15,7 +17,13 @@ interface CardProps extends CardData {
   handleMatch: () => void
 }
 
-// CARD
+const difficultyStyles: Record<string, string> = {
+  EASY: 'easy',
+  MEDIUM: 'medium',
+  HARD: 'hard',
+  IMPOSSIBLE: 'impossible',
+}
+
 export const Card = ({
   matched,
   selected,
@@ -24,9 +32,14 @@ export const Card = ({
   disabled,
   handleMatch,
 }: CardProps) => {
+  const { difficulty } = useBoardState()
+
   return (
     <div
-      className={classNames('flex h-1/2 w-1/4 items-center justify-center')}
+      className={classNames(
+        'flex items-center justify-center text-6xl',
+        difficultyStyles[difficulty],
+      )}
       aria-disabled={matched || selected}
     >
       <div className={classNames('flip-card m-5 h-48 w-48 bg-transparent')}>
@@ -44,7 +57,7 @@ export const Card = ({
             onClick={handleMatch}
             disabled={matched || selected || disabled}
             className={classNames(
-              'flip-card-front absolute block h-full w-full rounded-3xl bg-blue-300 text-6xl',
+              'flip-card-front absolute block h-full w-full rounded-3xl bg-blue-300 ',
               {
                 'cursor-pointer': !matched && !selected,
               },
@@ -53,10 +66,10 @@ export const Card = ({
           >
             {cardEmoji}
           </button>
-          <div className="flip-card-back absolute h-full w-full rounded-3xl bg-green-300">
+          <div className="absolute w-full h-full bg-green-300 flip-card-back rounded-3xl">
             <img
               src={cardImage}
-              className="h-full w-full rounded-3xl object-fill"
+              className="object-cover w-full h-full rounded-3xl"
             />
           </div>
         </div>
