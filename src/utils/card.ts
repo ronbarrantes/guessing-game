@@ -28,7 +28,7 @@ export const buildCardData = async (count: number, size: number) => {
     selected: false,
     cardImage: image,
     cardText: `Card ${idx}`,
-    cardColor: makeColorRandomColor(), // this will help use it
+    cardColor: makeColorRandomColor(),
   }))
 
   const data = randomizeCardData(

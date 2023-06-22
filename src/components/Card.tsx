@@ -24,31 +24,25 @@ const difficultyStyles: Record<string, string> = {
   IMPOSSIBLE: 'impossible',
 }
 
-// CARD
 export const Card = ({
   matched,
   selected,
   cardImage,
   cardEmoji,
   disabled,
-  // cardColor,
   handleMatch,
 }: CardProps) => {
   const { difficulty } = useBoardState()
 
   return (
     <div
-      // this is in control of the space taken by the card
       className={classNames(
         'flex items-center justify-center text-6xl',
         difficultyStyles[difficulty],
       )}
       aria-disabled={matched || selected}
     >
-      <div
-        // this is the card itself
-        className={classNames('flip-card m-5 h-48 w-48 bg-transparent')}
-      >
+      <div className={classNames('flip-card m-5 h-48 w-48 bg-transparent')}>
         <div
           className={classNames(
             'flip-card-inner relative h-full w-full rounded-3xl border-2 border-transparent text-center hover:border-yellow-500',

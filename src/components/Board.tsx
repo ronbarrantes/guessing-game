@@ -22,7 +22,6 @@ export const Board = () => {
     increaseGuessCount,
     gamesPlayed,
     setGameOver,
-    difficulty,
     setDifficulty,
     isGameOver,
     clearSelectedCards,
