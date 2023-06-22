@@ -1,11 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import {
-  Card,
-  LoadingPage,
-  Overlay,
-  // Select
-} from '@components'
+import { Card, DifficultyButton, LoadingPage, Overlay } from '@components'
 
 import {
   difficultyBoardSize,
@@ -14,7 +9,6 @@ import {
 import { useBoardState } from '@/state/boardState'
 import { buildCardData } from '@/utils/card'
 import { getEmoji } from '@/utils/emoji'
-import { DifficultyButton } from './DifficultyButton'
 
 export const Board = () => {
   const [emoji, setEmoji] = useState('')

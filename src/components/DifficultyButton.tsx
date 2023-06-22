@@ -2,8 +2,6 @@ import classNames from 'classnames'
 
 import { Difficulty } from '@/constants/difficultyChoices'
 
-// import { useBoardState } from '@/state/boardState'
-
 interface DifficultyButtonProps {
   difficulty: string
   selectedDifficulty: Difficulty
