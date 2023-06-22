@@ -11,7 +11,6 @@ import {
   difficultyBoardSize,
   difficultyChoices,
 } from '@/constants/difficultyChoices'
-// import { difficultyChoices } from '@/constants/difficultyChoices'
 import { useBoardState } from '@/state/boardState'
 import { buildCardData } from '@/utils/card'
 import { getEmoji } from '@/utils/emoji'
@@ -19,6 +18,7 @@ import { DifficultyButton } from './DifficultyButton'
 
 export const Board = () => {
   const [emoji, setEmoji] = useState('')
+  const [prepDifficulty, setPrepDifficulty] = useState(difficultyChoices[0])
 
   const {
     cards,
@@ -70,7 +70,8 @@ export const Board = () => {
           <div className="flex justify-center gap-3">
             {difficultyChoices.map((d) => (
               <DifficultyButton
-                setDifficulty={() => setDifficulty(d)}
+                setDifficulty={() => setPrepDifficulty(d)}
+                selectedDifficulty={prepDifficulty}
                 key={`btn-${d}`}
                 difficulty={d}
               />
@@ -82,7 +83,10 @@ export const Board = () => {
             onClick={async () => {
               resetGame()
               setEmoji(getEmoji())
-              const cards = await buildCardData(difficultyBoardSize[difficulty])
+              setDifficulty(prepDifficulty)
+              const cards = await buildCardData(
+                difficultyBoardSize[prepDifficulty],
+              )
               loadCards(cards)
             }}
           >

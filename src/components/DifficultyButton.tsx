@@ -1,9 +1,12 @@
 import classNames from 'classnames'
 
-import { useBoardState } from '@/state/boardState'
+import { Difficulty } from '@/constants/difficultyChoices'
+
+// import { useBoardState } from '@/state/boardState'
 
 interface DifficultyButtonProps {
   difficulty: string
+  selectedDifficulty: Difficulty
   setDifficulty: () => void
 }
 
@@ -24,8 +27,9 @@ const difficultyColorsSelected: Record<string, string> = {
 export const DifficultyButton = ({
   difficulty,
   setDifficulty,
+  selectedDifficulty,
 }: DifficultyButtonProps) => {
-  const { difficulty: selectedDifficulty } = useBoardState()
+  // const {  selectedDifficulty } = useBoardState()
 
   return (
     <button
